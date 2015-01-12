@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>robojs.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../", thisFile = "dist\\robojs.js", defaultSidebar = false;
+  </script>
+  <script src="../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#robojs">RoboJS</a>
+      </div>
+      <div class="heading h1">
+        <a href="#installation">Installation</a>
+      </div>
+      <div class="heading h1">
+        <a href="#dependencies">Dependencies</a>
+      </div>
+      <div class="heading h1">
+        <a href="#usage">Usage</a>
+      </div>
+      <div class="heading h1">
+        <a href="#api%20reference">Api Reference</a>
+      </div>
+      <div class="heading h2">
+        <a href="#displaylist">DisplayList</a>
+      </div>
+      <div class="heading h3">
+        <a href="#mutationobserver">MutationObserver</a>
+      </div>
+      <div class="heading h3">
+        <a href="#configuration%20of%20the%20observer.">Configuration of the observer.</a>
+      </div>
+      <div class="heading h2">
+        <a href="#eventdispatcher">EventDispatcher</a>
+      </div>
+      <div class="heading h3">
+        <a href="#addeventlistener">addEventListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#removeeventlistener">removeEventListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#removealleventlisteners">removeAllEventListeners</a>
+      </div>
+      <div class="heading h3">
+        <a href="#haseventlistener">hasEventListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#dispatchevent">dispatchEvent</a>
+      </div>
+      <div class="heading h3">
+        <a href="#getinstance">getInstance</a>
+      </div>
+      <div class="heading h2">
+        <a href="#eventmapconfig">EventMapConfig</a>
+      </div>
+      <div class="heading h2">
+        <a href="#eventmap">EventMap</a>
+      </div>
+      <div class="heading h3">
+        <a href="#maplistener">mapListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#unmaplistener">unmapListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#unmaplisteners">unmapListeners</a>
+      </div>
+      <div class="heading h2">
+        <a href="#mediator">Mediator</a>
+      </div>
+      <div class="heading h3">
+        <a href="#postdestroy">postDestroy</a>
+      </div>
+      <div class="heading h3">
+        <a href="#addcontextlistener">addContextListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#removecontextlistener">removeContextListener</a>
+      </div>
+      <div class="heading h3">
+        <a href="#dispatch">dispatch</a>
+      </div>
+      <div class="heading h3">
+        <a href="#initialize">initialize</a>
+      </div>
+      <div class="heading h3">
+        <a href="#destroy">destroy</a>
+      </div>
+      <div class="heading h2">
+        <a href="#scriptloader">ScriptLoader</a>
+      </div>
+      <div class="heading h2">
+        <a href="#mediatorsbuilder">MediatorsBuilder</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>robojs.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">root</span><span class="p">,</span> <span class="nx">factory</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">define</span><span class="p">.</span><span class="nx">amd</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">define</span><span class="p">([</span><span class="s1">&#39;lodash&#39;</span><span class="p">,</span><span class="s2">&quot;signals&quot;</span><span class="p">,</span><span class="s2">&quot;Promise&quot;</span><span class="p">],</span> <span class="nx">factory</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">root</span><span class="p">.</span><span class="nx">RoboJS</span> <span class="o">=</span> <span class="nx">factory</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">_</span><span class="p">,</span><span class="nx">root</span><span class="p">.</span><span class="nx">signals</span><span class="p">,</span><span class="nx">root</span><span class="p">.</span><span class="nx">Promise</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="nx">signals</span><span class="p">,</span><span class="nx">Promise</span><span class="p">)</span> <span class="p">{</span>
+  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="robojs">
+  <h1>
+    <a href="#robojs" name="robojs" class="pilcrow">&#182;</a>
+    RoboJS
+  </h1>
+</div>
+
+
+<p>RoboJS is a library that aims to dynamically load JS modules depending on how the DOM is composed.
+Add a node to the DOM and a JS will be loaded!
+Remove a node and the JS will be disposed!!</p>
+  </div>
+  <div class="body">
+<div class="pilwrap" id="installation">
+  <h1>
+    <a href="#installation" name="installation" class="pilcrow">&#182;</a>
+    Installation
+  </h1>
+</div>
+
+
+<p>
+<div class="highlight"><pre><code><span class="nx">bower</span> <span class="nx">install</span> <span class="nx">robojs</span>
+</code></pre></div>
+
+</p>
+
+<div class="pilwrap" id="dependencies">
+  <h1>
+    <a href="#dependencies" name="dependencies" class="pilcrow">&#182;</a>
+    Dependencies
+  </h1>
+</div>
+
+<p> </p>
+
+<div class="pilwrap" id="usage">
+  <h1>
+    <a href="#usage" name="usage" class="pilcrow">&#182;</a>
+    Usage
+  </h1>
+</div>
+
+<p>You set a <code>data-mediator</code> attribute with an ID (whatever you want)
+
+
+<div class="highlight"><pre><code><span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;mediator-a&quot;</span><span class="nt">&gt;</span>a-2<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;mediator-b&quot;</span><span class="nt">&gt;</span>b-1<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;mediator-c&quot;</span><span class="nt">&gt;</span>c-1<span class="nt">&lt;/div&gt;</span>
+</code></pre></div>
+
+
+
+in <code>MediatorsMap.js</code> you define an Array that maps an ID and a Mediator path
+
+
+
+<div class="highlight"><pre><code><span class="p">[</span>
+<span class="p">{</span>
+<span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;mediator-a&quot;</span><span class="p">,</span>
+<span class="s2">&quot;mediator&quot;</span><span class="o">:</span> <span class="s2">&quot;client/MediatorA&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;mediator-b&quot;</span><span class="p">,</span>
+<span class="s2">&quot;mediator&quot;</span><span class="o">:</span> <span class="s2">&quot;client/MediatorB&quot;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;mediator-c&quot;</span><span class="p">,</span>
+<span class="s2">&quot;mediator&quot;</span><span class="o">:</span> <span class="s2">&quot;client/MediatorC&quot;</span>
+<span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+
+
+
+
+For instance in this sample I mapped 3 different Mediators.
+
+When the builder finds a match between a <code>data-mediator</code> attribute and an ID from <code>MediatorsMap</code>,
+it will create a new instance of Mediator, storing the DOM Node into a property named <code>element</code> and executes <code>initialize</code> method
+</p>
+
+<p>
+In this example we create an instance of <code>MediatorsBuilder</code> passing the map of Mediators.
+
+
+<div class="highlight"><pre><code><span class="kd">var</span> <span class="nx">RoboJS</span><span class="o">=</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;RoboJS&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">MediatorsMap</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;./MediatorsMap&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">display</span><span class="p">.</span><span class="nx">MediatorsBuilder</span><span class="p">(</span><span class="nx">MediatorsMap</span><span class="p">);</span>
+<span class="nx">builder</span><span class="p">.</span><span class="nx">bootstrap</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Mediators loaded --&gt; mediators</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//catch an error});</span>
+</code></pre></div>
+
+
+
+
+<p>
+When new DOM nodes are added to the document MutationObserver notify it, and a onAdded Signal is dispatched.
+The Signal argument is an Array of Mediator instances
+</p>
+
+
+<div class="highlight"><pre><code><span class="nx">builder</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Mediators added async --&gt; mediators</span>
+<span class="p">});</span>
+</code></pre></div>
+
+
+
+<p>
+when new DOM nodes are removed from the document MutationObserver notify it, and a onRemoved Signal is dispatched.
+The Signal argument is an instances of Mediator.
+</p>
+
+
+<div class="highlight"><pre><code><span class="nx">builder</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Mediator onRemoved async --&gt; mediator</span>
+<span class="p">});</span>
+</code></pre></div>
+
+
+
+<p>
+In this example <code>bootstrap</code> method scans <code>document.body</code> looking for <code>data-mediator</code> attribute.<br/>
+But let's say... you dynamically attached some elements to the DOM.
+Well MutationObserver notify it and the <code>MediatorsBuilder</code> takes care to create the right Mediators.</p>
+
+
+
+<div class="highlight"><pre><code><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.add-button&quot;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;div data-mediator=&quot;mediator-b&quot;&gt;&lt;/div&gt;&#39;</span><span class="p">);</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">element</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+
+
+
+<p>On click a new random <code>element</code> is added to the DOM tree, when an <code>element</code> is clicked, it will be removed.<br/>
+Every Mediators will be removed too.</p>
+
+</p>
+
+
+<div class="pilwrap" id="api%20reference">
+  <h1>
+    <a href="#api%20reference" name="api%20reference" class="pilcrow">&#182;</a>
+    Api Reference
+  </h1>
+</div>
+
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">var</span> <span class="nx">RoboJS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">MEDIATORS_CACHE</span><span class="o">:</span> <span class="p">{},</span>
+        <span class="nx">utils</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">uid</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;0&#39;</span>
+            <span class="p">],</span>
+            <span class="nx">nextUid</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">digit</span><span class="p">;</span>
+                <span class="k">while</span> <span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">index</span><span class="o">--</span><span class="p">;</span>
+                    <span class="nx">digit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">digit</span> <span class="o">==</span> <span class="mi">57</span> <span class="cm">/*&#39;9&#39;*/</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span><span class="p">;</span>
+                        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">digit</span> <span class="o">==</span> <span class="mi">90</span>  <span class="cm">/*&#39;Z&#39;*/</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">digit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">);</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">uid</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="displaylist">
+  <h2>
+    <a href="#displaylist" name="displaylist" class="pilcrow">&#182;</a>
+    DisplayList
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+     <span class="kd">function</span> <span class="nx">DisplayList</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mutationobserver">
+  <h3>
+    <a href="#mutationobserver" name="mutationobserver" class="pilcrow">&#182;</a>
+    MutationObserver
+  </h3>
+</div>
+
+
+<p>provides developers a way to react to changes in a DOM.<br/>
+It is designed as a replacement for Mutation Events defined in the DOM3 Events specification.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">docs!</a></p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="kd">var</span> <span class="nx">observer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MutationObserver</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">handleMutations</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="configuration%20of%20the%20observer.">
+  <h3>
+    <a href="#configuration%20of%20the%20observer." name="configuration%20of%20the%20observer." class="pilcrow">&#182;</a>
+    Configuration of the observer.
+  </h3>
+</div>
+
+
+<p>Registers the MutationObserver instance to receive notifications of DOM mutations on the specified node.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">observer</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">attributes</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">childList</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">characterData</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">subtree</span><span class="o">:</span><span class="kc">true</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nx">DisplayList</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">handleMutations</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">mutations</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">mutations</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">mutation</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">addedNodes</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">mutation</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">));</span>
+                <span class="nx">result</span><span class="p">.</span><span class="nx">removedNodes</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">mutation</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">));</span>
+                <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+            <span class="p">},</span> <span class="p">{</span><span class="nx">addedNodes</span><span class="o">:</span> <span class="p">[],</span> <span class="nx">removedNodes</span><span class="o">:</span> <span class="p">[]});</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">);</span>
+            <span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="eventdispatcher">
+  <h2>
+    <a href="#eventdispatcher" name="eventdispatcher" class="pilcrow">&#182;</a>
+    <strong>EventDispatcher</strong>
+  </h2>
+</div>
+
+
+<p>The EventDispatcher class is a Singleton that handle Events in RoboJS.<br/>
+It can also be used as the base class for all classes that dispatch events.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">function</span> <span class="nx">EventDispatcher</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="p">}</span>
+
+    <span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addeventlistener">
+  <h3>
+    <a href="#addeventlistener" name="addeventlistener" class="pilcrow">&#182;</a>
+    addEventListener
+  </h3>
+</div>
+
+
+<p>Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">type</span>
+      <span><code>String</code> the event name to listen</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">callback</span>
+      <span><code>Function</code> the callback to execute</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">scope</span>
+      <span><code>Object</code> the scope of the callback (default=null)</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span><code>Object</code> the listener added</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">addEventListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">listener</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="p">,</span>
+                <span class="nx">callback</span><span class="o">:</span> <span class="nx">callback</span><span class="p">,</span>
+                <span class="nx">scope</span><span class="o">:</span> <span class="nx">scope</span>
+            <span class="p">};</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">type</span><span class="p">])</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
+            <span class="p">}</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">type</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">listener</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">listener</span><span class="p">;</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="removeeventlistener">
+  <h3>
+    <a href="#removeeventlistener" name="removeeventlistener" class="pilcrow">&#182;</a>
+    removeEventListener
+  </h3>
+</div>
+
+
+<p>Removes a listener from the EventDispatcher object.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventName</span>
+      <span><code>String</code> the event name to remove</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">callback</span>
+      <span><code>Function</code> the callback to unmap</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">scope</span>
+      <span><code>Object</code> the scope of the callback</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">removeEventListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">eventName</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">listeners</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">eventName</span><span class="p">]</span> <span class="o">||</span> <span class="p">[];</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">eventName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">listeners</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">sameCB</span> <span class="o">=</span> <span class="nx">listener</span><span class="p">.</span><span class="nx">callback</span> <span class="o">==</span> <span class="nx">callback</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">sameScope</span> <span class="o">=</span> <span class="nx">listener</span><span class="p">.</span><span class="nx">scope</span> <span class="o">==</span> <span class="nx">scope</span><span class="p">;</span>
+                <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="nx">sameCB</span> <span class="o">&amp;&amp;</span> <span class="nx">sameScope</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="removealleventlisteners">
+  <h3>
+    <a href="#removealleventlisteners" name="removealleventlisteners" class="pilcrow">&#182;</a>
+    removeAllEventListeners
+  </h3>
+</div>
+
+
+<p>Removes all listeners from the EventDispatcher object.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventName</span>
+      <span><code>String</code> the event name to remove</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">removeAllEventListeners</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">eventName</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">eventName</span><span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="haseventlistener">
+  <h3>
+    <a href="#haseventlistener" name="haseventlistener" class="pilcrow">&#182;</a>
+    hasEventListener
+  </h3>
+</div>
+
+
+<p>Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventName</span>
+      <span><code>String</code> the event to check</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span><code>*</code></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">hasEventListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">eventName</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">eventName</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">eventName</span><span class="p">].</span><span class="nx">length</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="dispatchevent">
+  <h3>
+    <a href="#dispatchevent" name="dispatchevent" class="pilcrow">&#182;</a>
+    dispatchEvent
+  </h3>
+</div>
+
+
+<p>Dispatches an event into the event flow.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">type</span>
+      <span><code>String</code> the event to dispatch</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">data</span>
+      <span><code>*</code> the data to pass</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">dispatchEvent</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">listeners</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_currentListeners</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">||</span> <span class="p">[];</span>
+            <span class="kd">var</span> <span class="nx">length</span> <span class="o">=</span> <span class="nx">listeners</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">s</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">l</span> <span class="o">=</span> <span class="nx">listeners</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                <span class="nx">c</span> <span class="o">=</span> <span class="nx">l</span><span class="p">.</span><span class="nx">callback</span><span class="p">;</span>
+                <span class="nx">s</span> <span class="o">=</span> <span class="nx">l</span><span class="p">.</span><span class="nx">scope</span><span class="p">;</span>
+                <span class="nx">c</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">__instance</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="getinstance">
+  <h3>
+    <a href="#getinstance" name="getinstance" class="pilcrow">&#182;</a>
+    getInstance
+  </h3>
+</div>
+
+
+<p>static method to get Singleton instance</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span><code>EventDispatcher</code></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">getInstance</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">__instance</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">__instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventDispatcher</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">__instance</span><span class="p">;</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="eventmapconfig">
+  <h2>
+    <a href="#eventmapconfig" name="eventmapconfig" class="pilcrow">&#182;</a>
+    EventMapConfig
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">function</span> <span class="nx">EventMapConfig</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span> <span class="o">=</span> <span class="nx">dispatcher</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">eventString</span> <span class="o">=</span> <span class="nx">eventString</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">listener</span> <span class="o">=</span> <span class="nx">listener</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">callback</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">scope</span> <span class="o">=</span> <span class="nx">scope</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">EventMapConfig</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">equalTo</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">eventString</span> <span class="o">==</span> <span class="nx">eventString</span>
+                <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span> <span class="o">==</span> <span class="nx">dispatcher</span>
+                <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">listener</span> <span class="o">==</span> <span class="nx">listener</span><span class="p">;</span>
+
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="eventmap">
+  <h2>
+    <a href="#eventmap" name="eventmap" class="pilcrow">&#182;</a>
+    <strong>EventMap</strong>
+  </h2>
+</div>
+
+
+<p>The Event Map keeps track of listeners and provides the ability
+to unregister all listeners with a single method call.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">function</span> <span class="nx">EventMap</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">_listeners</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="p">}</span>
+
+    <span class="nx">EventMap</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="maplistener">
+  <h3>
+    <a href="#maplistener" name="maplistener" class="pilcrow">&#182;</a>
+    mapListener
+  </h3>
+</div>
+
+
+<p>The same as calling addEventListener directly on the EventDispatcher, but keeps a list of listeners for easy (usually automatic) removal.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">dispatcher</span>
+      <span><code>EventDispatcher</code> -- The EventDispatcher to listen to</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventString</span>
+      <span><code>String</code> -- The Event type to listen for</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">listener</span>
+      <span><code>Function</code> -- The Event handler</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">scope</span>
+      <span><code>*</code> -- the listener scope (default = null)</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">mapListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">currentListeners</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_listeners</span><span class="p">;</span>
+
+            <span class="kd">var</span> <span class="nx">config</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">currentListeners</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">config</span> <span class="o">=</span> <span class="nx">currentListeners</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="kd">var</span> <span class="nx">callback</span> <span class="o">=</span> <span class="nx">listener</span><span class="p">;</span>
+
+            <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventMapConfig</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">scope</span><span class="p">);</span>
+
+            <span class="nx">currentListeners</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+            <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">scope</span><span class="p">);</span>
+
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="unmaplistener">
+  <h3>
+    <a href="#unmaplistener" name="unmaplistener" class="pilcrow">&#182;</a>
+    unmapListener
+  </h3>
+</div>
+
+
+<p>The same as calling <code>removeEventListener</code> directly on the <code>EventDispatcher</code>,
+but updates our local list of listeners.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">dispatcher</span>
+      <span>The <code>EventDispatcher</code></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventString</span>
+      <span>The <code>String</code> type</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">listener</span>
+      <span>The <code>Function</code> handler</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">unmapListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">currentListeners</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_listeners</span><span class="p">;</span>
+
+            <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">currentListeners</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">currentListeners</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">))</span> <span class="p">{</span>
+
+                    <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">scope</span><span class="p">);</span>
+
+                    <span class="nx">currentListeners</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="unmaplisteners">
+  <h3>
+    <a href="#unmaplisteners" name="unmaplisteners" class="pilcrow">&#182;</a>
+    unmapListeners
+  </h3>
+</div>
+
+
+<p>Removes all listeners registered through <code>mapListener</code></p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">unmapListeners</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">currentListeners</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_listeners</span><span class="p">;</span>
+
+            <span class="kd">var</span> <span class="nx">eventConfig</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">dispatcher</span><span class="p">;</span>
+            <span class="k">while</span> <span class="p">(</span><span class="nx">eventConfig</span> <span class="o">=</span> <span class="nx">currentListeners</span><span class="p">.</span><span class="nx">pop</span><span class="p">())</span> <span class="p">{</span>
+
+                <span class="nx">dispatcher</span> <span class="o">=</span> <span class="nx">eventConfig</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">;</span>
+                <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">eventConfig</span><span class="p">.</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">eventConfig</span><span class="p">.</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">eventConfig</span><span class="p">.</span><span class="nx">scope</span><span class="p">);</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mediator">
+  <h2>
+    <a href="#mediator" name="mediator" class="pilcrow">&#182;</a>
+    Mediator
+  </h2>
+</div>
+
+
+<p>Mediators should observe one of the following forms:</p>
+
+<ul>
+    <li>Extend the base mediator class and override <code>initialize()</code> and, if needed, <code>destroy()</code>.</li>
+    <li>Don't extend the base mediator class, and provide functions <code>initialize()</code> and, if needed, also <code>destroy()</code>.</li>
+</ul>
+  </div>
+  <div class="body"><p>A mediator that extends the Mediator might look like this:</p>
+
+<pre>
+var RoboJS=require("RoboJS");
+function MediatorA() {
+   RoboJS.display.Mediator.apply(this, arguments);
+}
+MediatorA.prototype = Object.create(RoboJS.display.Mediator.prototype, {
+    initialize: {
+        value: function () {
+            // code goes here
+       }
+     }
+});
+</pre>
+
+<p>You do not have to extend the Mediator:</p>
+
+<pre>
+
+function MediatorA() {}
+
+MediatorA.prototype={
+       initialize:function(){
+           //your code goes here
+       }
+   }
+</pre>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">function</span> <span class="nx">Mediator</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">element</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">eventMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventMap</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">eventDispatcher</span> <span class="o">=</span> <span class="nx">EventDispatcher</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="nx">Mediator</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="postdestroy">
+  <h3>
+    <a href="#postdestroy" name="postdestroy" class="pilcrow">&#182;</a>
+    postDestroy
+  </h3>
+</div>
+
+
+<p>Runs after the mediator has been destroyed.
+Cleans up listeners mapped through the local <code>eventMap</code>.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">postDestroy</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;postDestroy&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">eventMap</span><span class="p">.</span><span class="nx">unmapListeners</span><span class="p">();</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addcontextlistener">
+  <h3>
+    <a href="#addcontextlistener" name="addcontextlistener" class="pilcrow">&#182;</a>
+    addContextListener
+  </h3>
+</div>
+
+
+<p>Syntactical sugar for mapping a listener to an <code>EventDispatcher</code></p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventString</span>
+      <span><code>String</code></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">listener</span>
+      <span><code>Function</code></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">scope</span>
+      <span><code>*</code> the context where 'this' is bind to</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">addContextListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">eventMap</span><span class="p">.</span><span class="nx">mapListener</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">eventDispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">);</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="removecontextlistener">
+  <h3>
+    <a href="#removecontextlistener" name="removecontextlistener" class="pilcrow">&#182;</a>
+    removeContextListener
+  </h3>
+</div>
+
+
+<p>Syntactical sugar for unmapping a listener to an <code>EventDispatcher</code></p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventString</span>
+      <span><code>String</code></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">listener</span>
+      <span><code>Function</code></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">removeContextListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">eventMap</span><span class="p">.</span><span class="nx">unmapListener</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">eventDispatcher</span><span class="p">,</span> <span class="nx">eventString</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="dispatch">
+  <h3>
+    <a href="#dispatch" name="dispatch" class="pilcrow">&#182;</a>
+    dispatch
+  </h3>
+</div>
+
+  </div>
+  <div class="body"><p>Dispatch helper method</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">eventString</span>
+      <span><code>String</code> The Event name to dispatch on the system</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">data</span>
+      <span><code>*</code> the data dispatched</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">dispatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">eventDispatcher</span><span class="p">.</span><span class="nx">hasEventListener</span><span class="p">(</span><span class="nx">eventString</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">eventDispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">eventString</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="initialize">
+  <h3>
+    <a href="#initialize" name="initialize" class="pilcrow">&#182;</a>
+    initialize
+  </h3>
+</div>
+
+
+<p>Initializes the mediator. This is run automatically by the <code>mediatorBuilder</code> when a mediator is created.
+Normally the <code>initialize</code> function is where you would add handlers using the <code>eventMap</code>.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="destroy">
+  <h3>
+    <a href="#destroy" name="destroy" class="pilcrow">&#182;</a>
+    destroy
+  </h3>
+</div>
+
+
+<p>Destroys the mediator. This is run automatically by the <code>mediatorBuilder</code> when a mediator is destroyed.
+You should clean up any handlers that were added directly (<code>eventMap</code> handlers will be cleaned up automatically).</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">destroy</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{}</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="scriptloader">
+  <h2>
+    <a href="#scriptloader" name="scriptloader" class="pilcrow">&#182;</a>
+    ScriptLoader
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">function</span> <span class="nx">ScriptLoader</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="nx">ScriptLoader</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">require</span><span class="p">([</span><span class="nx">id</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Mediator</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">resolve</span><span class="p">(</span><span class="nx">Mediator</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="mediatorsbuilder">
+  <h2>
+    <a href="#mediatorsbuilder" name="mediatorsbuilder" class="pilcrow">&#182;</a>
+    MediatorsBuilder
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="kd">function</span> <span class="nx">MediatorsBuilder</span><span class="p">(</span><span class="nx">_definition</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">definitions</span> <span class="o">=</span> <span class="nx">_definition</span> <span class="o">||</span> <span class="p">[];</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DisplayList</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesAdded</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesRemoved</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ScriptLoader</span><span class="p">();</span>
+    <span class="p">}</span>
+
+
+    <span class="nx">MediatorsBuilder</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+        <span class="nx">bootstrap</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getMediators</span><span class="p">([</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">]);</span>
+        <span class="p">},</span>
+        <span class="nx">getMediators</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">promises</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_reduceNodes</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_findMediators</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="p">[])</span>
+                <span class="p">.</span><span class="nx">value</span><span class="p">();</span>
+
+            <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">promises</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">_findMediators</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">node</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="kd">var</span> <span class="nx">mediators</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">definitions</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">mediator</span> <span class="o">==</span> <span class="nx">def</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+                <span class="p">})</span>
+                <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">{</span>
+
+                    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">loader</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">mediator</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_initMediator</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">node</span><span class="p">));</span>
+                <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)).</span><span class="nx">value</span><span class="p">();</span>
+
+            <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">mediators</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">_initMediator</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">Mediator</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">mediatorId</span> <span class="o">=</span> <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">nextUid</span><span class="p">();</span>
+            <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span> <span class="o">||</span> <span class="p">{};</span>
+            <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">mediatorId</span> <span class="o">=</span> <span class="nx">mediatorId</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">_mediator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Mediator</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+            <span class="nx">_mediator</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">mediatorId</span><span class="p">;</span>
+            <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">MEDIATORS_CACHE</span><span class="p">[</span><span class="nx">mediatorId</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_mediator</span><span class="p">;</span>
+            <span class="nx">_mediator</span><span class="p">.</span><span class="nx">initialize</span><span class="p">();</span>
+            <span class="k">return</span> <span class="nx">_mediator</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">_handleNodesAdded</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">getMediators</span><span class="p">(</span><span class="nx">nodes</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">mediators</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+        <span class="p">},</span>
+        <span class="nx">_handleNodesRemoved</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">nodes</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_reduceNodes</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_destroyMediator</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
+        <span class="p">},</span>
+        <span class="nx">_reduceNodes</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">node</span> <span class="o">||</span> <span class="o">!</span><span class="nx">node</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">)</span><span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="p">[].</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+            <span class="nx">n</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">_destroyMediator</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">mediatorId</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">mediatorId</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">mediator</span> <span class="o">=</span> <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">MEDIATORS_CACHE</span><span class="p">[</span><span class="nx">mediatorId</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">mediator</span><span class="p">.</span><span class="nx">destroy</span> <span class="o">&amp;&amp;</span> <span class="nx">mediator</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
+                <span class="nx">mediator</span><span class="p">.</span><span class="nx">postDestroy</span> <span class="o">&amp;&amp;</span> <span class="nx">mediator</span><span class="p">.</span><span class="nx">postDestroy</span><span class="p">();</span>
+
+                <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">mediator</span><span class="p">);</span>
+                <span class="nx">mediator</span><span class="p">.</span><span class="nx">element</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+                <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">MEDIATORS_CACHE</span><span class="p">[</span><span class="nx">mediatorId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+                <span class="nx">mediator</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+            <span class="p">}</span>
+
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-28" id="section-28">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary">
+  </div>
+  <div class="body"><p><strong>RoboJS.display</strong> package contains</p>
+
+<ul>
+    <li>DisplayList</li>
+    <li>Mediator</li>
+    <li>MediatorBuilder</li>
+</ul>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">DisplayList</span><span class="o">:</span> <span class="nx">DisplayList</span><span class="p">,</span>
+        <span class="nx">Mediator</span><span class="o">:</span> <span class="nx">Mediator</span><span class="p">,</span>
+        <span class="nx">MediatorsBuilder</span><span class="o">:</span> <span class="nx">MediatorsBuilder</span>
+    <span class="p">};</span>
+
+
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary">
+  </div>
+  <div class="body"><p><strong>RoboJS.events</strong> package contains</p>
+
+<ul>
+    <li>EventDispatcher</li>
+    <li>EventMap</li>
+    <li>EventMapConfig</li>
+</ul>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">events</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">EventDispatcher</span><span class="o">:</span> <span class="nx">EventDispatcher</span><span class="p">,</span>
+        <span class="nx">EventMap</span><span class="o">:</span> <span class="nx">EventMap</span><span class="p">,</span>
+        <span class="nx">EventMapConfig</span><span class="o">:</span> <span class="nx">EventMapConfig</span>
+    <span class="p">};</span>
+
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p><strong>RoboJS.net</strong> package contains</p>
+
+<ul>
+    <li>ScriptLoader</li>
+</ul>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">net</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">ScriptLoader</span><span class="o">:</span> <span class="nx">ScriptLoader</span>
+    <span class="p">};</span>
+
+
+<span class="p">;</span>
+
+
+
+
+
+<span class="k">return</span> <span class="nx">RoboJS</span><span class="p">;</span>
+<span class="p">}));</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>
