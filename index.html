@@ -6,7 +6,7 @@
   <link rel="stylesheet" media="all" href="doc-style.css" />
   <script src="doc-filelist.js"></script>
   <script>
-    var relativeDir = "", thisFile = "dist\\robojs.js", defaultSidebar = true;
+    var relativeDir = "../", thisFile = "dist\\robojs.js", defaultSidebar = true;
   </script>
   <script src="doc-script.js"></script>
 </head>
@@ -174,7 +174,45 @@ Remove a node and the JS will be disposed!!</p>
   </h1>
 </div>
 
-<p> </p>
+
+<p>RoboJS depends on 2 third-party libraries</p>
+<ul>
+<li><a href="https://lodash.com/">Lodash</a>One of my favorite library!</li>
+<li><a href="http://millermedeiros.github.com/js-signals/">Signals</a>You must have a look at this awesome messaging system!</li>
+</ul>
+<p>bluebird / Q.js and RequireJS are highly recommended </p>
+<ul>
+<li><a href="https://github.com/petkaantonov/bluebird">bluebird</a>Because Promise is Promise!</li>
+<li><a href="https://github.com/kriskowal/q">Q.js</a>Because Promise is Promise!</li>
+<li><a href="http://requirejs.org">RequireJS</a>I <3 U!!!</li>
+</ul>
+<p>This is an example how you can set dependencies in AMD with RequireJS</p>
+
+
+
+<div class="highlight"><pre><code><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+<span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+<span class="nx">signals</span><span class="o">:</span> <span class="s2">&quot;bower_components/signals/dist/signals.min&quot;</span><span class="p">,</span>
+<span class="nx">lodash</span><span class="o">:</span> <span class="s2">&quot;bower_components/lodash/dist/lodash.min&quot;</span><span class="p">,</span>
+<span class="nx">Promise</span><span class="o">:</span> <span class="s2">&quot;path/to/any/promise/implementation&quot;</span><span class="p">,</span>
+<span class="nx">RoboJS</span><span class="o">:</span> <span class="s2">&quot;bower_components/robojs/dist/robojs.min&quot;</span>
+<span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+
+
+
+<p>or using Globals</p>
+
+
+<div class="highlight"><pre><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;signals.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;lodash.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;robojs.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div>
+
+
+
+
 
 <div class="pilwrap" id="usage">
   <h1>
