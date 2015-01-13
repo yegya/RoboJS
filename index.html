@@ -126,11 +126,11 @@
         </td>
         <td class="code highlight"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">root</span><span class="p">,</span> <span class="nx">factory</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">define</span><span class="p">.</span><span class="nx">amd</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">define</span><span class="p">([</span><span class="s1">&#39;lodash&#39;</span><span class="p">,</span><span class="s2">&quot;signals&quot;</span><span class="p">,</span><span class="s2">&quot;Promise&quot;</span><span class="p">],</span> <span class="nx">factory</span><span class="p">);</span>
+    <span class="nx">define</span><span class="p">([</span><span class="s1">&#39;lodash&#39;</span><span class="p">,</span><span class="s2">&quot;Promise&quot;</span><span class="p">],</span> <span class="nx">factory</span><span class="p">);</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">root</span><span class="p">.</span><span class="nx">RoboJS</span> <span class="o">=</span> <span class="nx">factory</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">_</span><span class="p">,</span><span class="nx">root</span><span class="p">.</span><span class="nx">signals</span><span class="p">,</span><span class="nx">root</span><span class="p">.</span><span class="nx">Promise</span><span class="p">);</span>
+    <span class="nx">root</span><span class="p">.</span><span class="nx">RoboJS</span> <span class="o">=</span> <span class="nx">factory</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">_</span><span class="p">,</span><span class="nx">root</span><span class="p">.</span><span class="nx">Promise</span><span class="p">);</span>
   <span class="p">}</span>
-<span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="nx">signals</span><span class="p">,</span><span class="nx">Promise</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="nx">Promise</span><span class="p">)</span> <span class="p">{</span>
   <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
 
@@ -175,16 +175,15 @@ Remove a node and the JS will be disposed!!</p>
 </div>
 
 
-<p>RoboJS depends on 2 third-party libraries</p>
+<p>RoboJS depends on a third-party library</p>
 <ul>
-<li><a href="https://lodash.com/">Lodash</a>: One of my favorite library!</li>
-<li><a href="http://millermedeiros.github.com/js-signals/">Signals</a>: You must have a look at this awesome messaging system!</li>
+<li><a href="https://lodash.com/">Lodash</a>One of my favorite library!</li>
 </ul>
 <p>bluebird / Q.js and RequireJS are highly recommended </p>
 <ul>
-<li><a href="https://github.com/petkaantonov/bluebird">bluebird</a>: Because Promise is Promise!</li>
-<li><a href="https://github.com/kriskowal/q">Q.js</a>: Because Promise is Promise!</li>
-<li><a href="http://requirejs.org">RequireJS</a>: I <3 U!!!</li>
+<li><a href="https://github.com/petkaantonov/bluebird">bluebird</a>Because Promise is Promise!</li>
+<li><a href="https://github.com/kriskowal/q">Q.js</a>Because Promise is Promise!</li>
+<li><a href="http://requirejs.org">RequireJS</a>I <3 U!!!</li>
 </ul>
 <p>This is an example how you can set dependencies in AMD with RequireJS</p>
 
@@ -192,7 +191,7 @@ Remove a node and the JS will be disposed!!</p>
 
 <div class="highlight"><pre><code><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
 <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
-<span class="nx">signals</span><span class="o">:</span> <span class="s2">&quot;bower_components/signals/dist/signals.min&quot;</span><span class="p">,</span>
+
 <span class="nx">lodash</span><span class="o">:</span> <span class="s2">&quot;bower_components/lodash/dist/lodash.min&quot;</span><span class="p">,</span>
 <span class="nx">Promise</span><span class="o">:</span> <span class="s2">&quot;path/to/any/promise/implementation&quot;</span><span class="p">,</span>
 <span class="nx">RoboJS</span><span class="o">:</span> <span class="s2">&quot;bower_components/robojs/dist/robojs.min&quot;</span>
@@ -205,8 +204,7 @@ Remove a node and the JS will be disposed!!</p>
 <p>or using Globals</p>
 
 
-<div class="highlight"><pre><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;signals.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;lodash.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<div class="highlight"><pre><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;lodash.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;robojs.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </code></pre></div>
 
@@ -369,6 +367,157 @@ Every Mediators will be removed too.</p>
     <span class="p">};</span>
     
 
+    <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+
+    <span class="kd">function</span> <span class="nx">Signal</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="p">[];</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>allow sub classes to pass an array of Classes
+if (arguments.length == 1 &amp;&amp; arguments[0] instanceof Array)
+setValueClasses(arguments[0])
+else</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setValueClasses</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">Signal</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">getNumListeners</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">getValueClasses</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">registerListener</span><span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">addOnce</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">registerListener</span><span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">remove</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">listenersNeedCloning</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">slice</span><span class="p">();</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">;)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span> <span class="o">==</span> <span class="nx">listener</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span> <span class="o">==</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">removeAll</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Looping backwards is more efficient when removing array items.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">;)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">dispatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">valueObject</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">primitiveMatchesValueClass</span><span class="p">(</span><span class="nx">arguments</span><span class="p">[</span><span class="nx">n</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">[</span><span class="nx">n</span><span class="p">]))</span>
+                    <span class="k">continue</span><span class="p">;</span>
+
+                <span class="k">if</span> <span class="p">((</span><span class="nx">valueObject</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">n</span><span class="p">])</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="nx">valueObject</span> <span class="k">instanceof</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">[</span><span class="nx">n</span><span class="p">])</span>
+                    <span class="k">continue</span><span class="p">;</span>
+
+                <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Value object &lt;&#39;</span> <span class="o">+</span> <span class="nx">valueObject</span>
+                <span class="o">+</span> <span class="s1">&#39;&gt; is not an instance of &lt;&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&gt;.&#39;</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="kd">var</span> <span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">listenerBox</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>var scope;</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+            <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">listenerBox</span> <span class="o">=</span> <span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">once</span><span class="p">)</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">listenerBox</span><span class="p">.</span><span class="nx">scope</span><span class="p">);</span>
+
+                <span class="nx">listenerBox</span><span class="p">.</span><span class="nx">listener</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">primitiveMatchesValueClass</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">primitive</span><span class="p">,</span> <span class="nx">valueClass</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">primitive</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">valueClass</span> <span class="o">==</span> <span class="nb">String</span>
+                <span class="o">||</span> <span class="k">typeof</span><span class="p">(</span><span class="nx">primitive</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;number&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">valueClass</span> <span class="o">==</span> <span class="nb">Number</span>
+                <span class="o">||</span> <span class="k">typeof</span><span class="p">(</span><span class="nx">primitive</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">valueClass</span> <span class="o">==</span> <span class="nb">Boolean</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">setValueClasses</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">valueClasses</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span> <span class="o">=</span> <span class="nx">valueClasses</span> <span class="o">||</span> <span class="p">[];</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">;)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="k">instanceof</span> <span class="nb">Function</span><span class="p">))</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Invalid valueClasses argument: item at index &#39;</span> <span class="o">+</span> <span class="nx">i</span>
+                    <span class="o">+</span> <span class="s1">&#39; should be a Class but was:&lt;&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&gt;.&#39;</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">registerListener</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="nx">once</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span> <span class="o">==</span> <span class="nx">listener</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span> <span class="o">==</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">once</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">once</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;You cannot addOnce() then try to add() the same listener &#39;</span> <span class="o">+</span>
+                        <span class="s1">&#39;without removing the relationship first.&#39;</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">once</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">once</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;You cannot add() then addOnce() the same listener &#39;</span> <span class="o">+</span>
+                        <span class="s1">&#39;without removing the relationship first.&#39;</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">slice</span><span class="p">();</span>
+            <span class="p">}</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span><span class="nx">listener</span><span class="o">:</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="o">:</span> <span class="nx">scope</span><span class="p">,</span> <span class="nx">once</span><span class="o">:</span> <span class="nx">once</span><span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+
+
+    
+
 
 </pre></div>
         </td>
@@ -390,8 +539,8 @@ Every Mediators will be removed too.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
      <span class="kd">function</span> <span class="nx">DisplayList</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
 
 </pre></div>
         </td>
@@ -463,7 +612,7 @@ It is designed as a replacement for Mutation Events defined in the DOM3 Events s
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
 </div>
 
         </td>
@@ -1277,8 +1426,8 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="kd">function</span> <span class="nx">MediatorsBuilder</span><span class="p">(</span><span class="nx">_definition</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">signals</span><span class="p">.</span><span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">definitions</span> <span class="o">=</span> <span class="nx">_definition</span> <span class="o">||</span> <span class="p">[];</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DisplayList</span><span class="p">();</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesAdded</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
@@ -1368,7 +1517,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-28" id="section-28">&#182;</a>
+  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary">
@@ -1400,7 +1549,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
+  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary">
@@ -1419,7 +1568,8 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
     <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">events</span> <span class="o">=</span> <span class="p">{</span>
         <span class="nx">EventDispatcher</span><span class="o">:</span> <span class="nx">EventDispatcher</span><span class="p">,</span>
         <span class="nx">EventMap</span><span class="o">:</span> <span class="nx">EventMap</span><span class="p">,</span>
-        <span class="nx">EventMapConfig</span><span class="o">:</span> <span class="nx">EventMapConfig</span>
+        <span class="nx">EventMapConfig</span><span class="o">:</span> <span class="nx">EventMapConfig</span><span class="p">,</span>
+        <span class="nx">Signal</span><span class="o">:</span> <span class="nx">Signal</span>
     <span class="p">};</span>
 
 
@@ -1431,7 +1581,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary"><p><strong>RoboJS.net</strong> package contains</p>
