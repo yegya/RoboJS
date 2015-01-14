@@ -298,7 +298,7 @@ The Signal argument is an Array of Mediator instances
 </p>
 
 
-<div class="highlight"><pre><code><span class="nx">builder</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code><span class="nx">builder</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">)</span> <span class="p">{</span>
 <span class="c1">// Mediators added async --&gt; mediators</span>
 <span class="p">});</span>
 </code></pre></div>
@@ -311,7 +311,7 @@ The Signal argument is an instances of Mediator.
 </p>
 
 
-<div class="highlight"><pre><code><span class="nx">builder</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code><span class="nx">builder</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">)</span> <span class="p">{</span>
 <span class="c1">// Mediator onRemoved async --&gt; mediator</span>
 <span class="p">});</span>
 </code></pre></div>
