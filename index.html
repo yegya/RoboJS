@@ -49,7 +49,7 @@
         <a href="#disconnectall">disconnectAll</a>
       </div>
       <div class="heading h3">
-        <a href="#dispatch">dispatch</a>
+        <a href="#emit">emit</a>
       </div>
       <div class="heading h2">
         <a href="#displaylist">DisplayList</a>
@@ -582,10 +582,10 @@ You can connect as many signals as you want to a single slot, and a signal can b
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="dispatch">
+<div class="pilwrap" id="emit">
   <h3>
-    <a href="#dispatch" name="dispatch" class="pilcrow">&#182;</a>
-    dispatch
+    <a href="#emit" name="emit" class="pilcrow">&#182;</a>
+    emit
   </h3>
 </div>
 
@@ -597,7 +597,7 @@ You can connect as many signals as you want to a single slot, and a signal can b
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-        <span class="nx">dispatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">emit</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
             <span class="kd">var</span> <span class="nx">valueObject</span><span class="p">;</span>
             <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
                 <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">primitiveMatchesValueClass</span><span class="p">(</span><span class="nx">arguments</span><span class="p">[</span><span class="nx">n</span><span class="p">],</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">[</span><span class="nx">n</span><span class="p">]))</span>
@@ -754,8 +754,8 @@ It is designed as a replacement for Mutation Events defined in the DOM3 Events s
                 <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
             <span class="p">},</span> <span class="p">{</span><span class="nx">addedNodes</span><span class="o">:</span> <span class="p">[],</span> <span class="nx">removedNodes</span><span class="o">:</span> <span class="p">[]});</span>
 
-            <span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">);</span>
-            <span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">);</span>
+            <span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">);</span>
+            <span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">};</span>
     
@@ -1607,7 +1607,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
         <span class="nx">_handleNodesAdded</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">getMediators</span><span class="p">(</span><span class="nx">nodes</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">)</span> <span class="p">{</span>
                 <span class="k">if</span> <span class="p">(</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">mediators</span><span class="p">);</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">mediators</span><span class="p">);</span>
                 <span class="p">}</span>
             <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
         <span class="p">},</span>
@@ -1628,7 +1628,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
             <span class="k">if</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">mediator</span><span class="p">.</span><span class="nx">destroy</span> <span class="o">&amp;&amp;</span> <span class="nx">mediator</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
                 <span class="nx">mediator</span><span class="p">.</span><span class="nx">postDestroy</span> <span class="o">&amp;&amp;</span> <span class="nx">mediator</span><span class="p">.</span><span class="nx">postDestroy</span><span class="p">();</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">mediator</span><span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">mediator</span><span class="p">);</span>
                 <span class="nx">mediator</span><span class="p">.</span><span class="nx">element</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
                 <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">MEDIATORS_CACHE</span><span class="p">[</span><span class="nx">mediatorId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
                 <span class="nx">mediator</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
