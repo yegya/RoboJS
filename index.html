@@ -34,6 +34,24 @@
         <a href="#api%20reference">Api Reference</a>
       </div>
       <div class="heading h2">
+        <a href="#signal">Signal</a>
+      </div>
+      <div class="heading h3">
+        <a href="#connect">connect</a>
+      </div>
+      <div class="heading h3">
+        <a href="#connectonce">connectOnce</a>
+      </div>
+      <div class="heading h3">
+        <a href="#disconnect">disconnect</a>
+      </div>
+      <div class="heading h3">
+        <a href="#disconnectall">disconnectAll</a>
+      </div>
+      <div class="heading h3">
+        <a href="#dispatch">dispatch</a>
+      </div>
+      <div class="heading h2">
         <a href="#displaylist">DisplayList</a>
       </div>
       <div class="heading h3">
@@ -126,11 +144,11 @@
         </td>
         <td class="code highlight"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">root</span><span class="p">,</span> <span class="nx">factory</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">define</span><span class="p">.</span><span class="nx">amd</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">define</span><span class="p">([</span><span class="s1">&#39;lodash&#39;</span><span class="p">,</span><span class="s2">&quot;Promise&quot;</span><span class="p">],</span> <span class="nx">factory</span><span class="p">);</span>
+    <span class="nx">define</span><span class="p">([</span><span class="s2">&quot;Promise&quot;</span><span class="p">],</span> <span class="nx">factory</span><span class="p">);</span>
   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">root</span><span class="p">.</span><span class="nx">RoboJS</span> <span class="o">=</span> <span class="nx">factory</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">_</span><span class="p">,</span><span class="nx">root</span><span class="p">.</span><span class="nx">Promise</span><span class="p">);</span>
+    <span class="nx">root</span><span class="p">.</span><span class="nx">RoboJS</span> <span class="o">=</span> <span class="nx">factory</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Promise</span><span class="p">);</span>
   <span class="p">}</span>
-<span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="nx">Promise</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Promise</span><span class="p">)</span> <span class="p">{</span>
   <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
 
@@ -175,24 +193,25 @@ Remove a node and the JS will be disposed!!</p>
 </div>
 
 
-<p>RoboJS depends on a third-party library</p>
+<p>RoboJS depends on ES5 for</p>
 <ul>
-<li><a href="https://lodash.com/">Lodash</a>One of my favorite library!</li>
+<li>Array.prototype.reduce()</li>
+<li>Array.prototype.map()</li>
+<li>Array.prototype.filter()</li>
 </ul>
-<p>bluebird / Q.js and RequireJS are highly recommended </p>
-<ul>
-<li><a href="https://github.com/petkaantonov/bluebird">bluebird</a>Because Promise is Promise!</li>
-<li><a href="https://github.com/kriskowal/q">Q.js</a>Because Promise is Promise!</li>
-<li><a href="http://requirejs.org">RequireJS</a>I <3 U!!!</li>
-</ul>
+<p><a href="https://github.com/petkaantonov/bluebird">bluebird</a> or <a href="https://github.com/kriskowal/q">Q.js</a>
+can be used where native Promise is not implemented.
+</p>
+
+<p><a href="http://requirejs.org">RequireJS</a> is used internally as script loader in <code>ScriptLoader</code> Class.
+You can override <code>loader</code> property of <code>MediatorsBuilder</code> instance with your own implementation to load JS.</p>
+
 <p>This is an example how you can set dependencies in AMD with RequireJS</p>
 
 
 
 <div class="highlight"><pre><code><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
 <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
-
-<span class="nx">lodash</span><span class="o">:</span> <span class="s2">&quot;bower_components/lodash/dist/lodash.min&quot;</span><span class="p">,</span>
 <span class="nx">Promise</span><span class="o">:</span> <span class="s2">&quot;path/to/any/promise/implementation&quot;</span><span class="p">,</span>
 <span class="nx">RoboJS</span><span class="o">:</span> <span class="s2">&quot;bower_components/robojs/dist/robojs.min&quot;</span>
 <span class="p">}</span>
@@ -204,8 +223,7 @@ Remove a node and the JS will be disposed!!</p>
 <p>or using Globals</p>
 
 
-<div class="highlight"><pre><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;lodash.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;robojs.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<div class="highlight"><pre><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;robojs.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </code></pre></div>
 
 
@@ -367,9 +385,32 @@ Every Mediators will be removed too.</p>
     <span class="p">};</span>
     
 
-    <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="signal">
+  <h2>
+    <a href="#signal" name="signal" class="pilcrow">&#182;</a>
+    Signal
+  </h2>
+</div>
 
 
+<p>Signals and slots are used for communication between objects. The signals and slots mechanism is a central feature of Qt </p>
+
+<p><p>A <code>signal</code> is emitted when a particular event occurs.
+A <code>slot</code> is a function that is called in response to a particular <code>signal</code>.
+You can connect as many signals as you want to a single slot, and a signal can be connected to as many slots as you need.</p>
+  </div>
+  <div class="body"><p></p></p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
     <span class="kd">function</span> <span class="nx">Signal</span><span class="p">()</span> <span class="p">{</span>
 
         <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="p">[];</span>
@@ -378,20 +419,6 @@ Every Mediators will be removed too.</p>
 
         <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
 
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
-</div>
-<p>allow sub classes to pass an array of Classes
-if (arguments.length == 1 &amp;&amp; arguments[0] instanceof Array)
-setValueClasses(arguments[0])
-else</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
         <span class="k">this</span><span class="p">.</span><span class="nx">setValueClasses</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
     <span class="p">}</span>
 
@@ -402,42 +429,174 @@ else</p>
         <span class="nx">getValueClasses</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
             <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">;</span>
         <span class="p">},</span>
-        <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">registerListener</span><span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-        <span class="p">},</span>
-        <span class="nx">addOnce</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">registerListener</span><span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-        <span class="p">},</span>
-        <span class="nx">remove</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">listenersNeedCloning</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">slice</span><span class="p">();</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">;)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span> <span class="o">==</span> <span class="nx">listener</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span> <span class="o">==</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-                    <span class="k">return</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="nx">removeAll</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 
 </pre></div>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="connect">
+  <h3>
+    <a href="#connect" name="connect" class="pilcrow">&#182;</a>
+    connect
+  </h3>
 </div>
-<p>Looping backwards is more efficient when removing array items.</p>
+
+
+<p>Connects the signal this to the incoming slot.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"><code>Function</code></span>
+      <span>the slot function</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"><code>Object</code></span>
+      <span>the scope of slot function execution</span>
+    </div>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">connect</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">slot</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">registerListener</span><span class="p">(</span><span class="nx">slot</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="connectonce">
+  <h3>
+    <a href="#connectonce" name="connectonce" class="pilcrow">&#182;</a>
+    connectOnce
+  </h3>
+</div>
+
+
+<p></p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"><code>Function</code></span>
+      <span>the slot function</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"><code>Object</code></span>
+      <span>the scope of slot function execution</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">connectOnce</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">slot</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">registerListener</span><span class="p">(</span><span class="nx">slot</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="disconnect">
+  <h3>
+    <a href="#disconnect" name="disconnect" class="pilcrow">&#182;</a>
+    disconnect
+  </h3>
+</div>
+
+
+<p>the given slot are disconnected.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"><code>Function</code></span>
+      <span>the slot function</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"><code>Object</code></span>
+      <span>the scope of slot function execution</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">disconnect</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">slot</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">slice</span><span class="p">();</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="p">}</span>
+
             <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">;)</span> <span class="p">{</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span> <span class="o">==</span> <span class="nx">slot</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span> <span class="o">==</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="disconnectall">
+  <h3>
+    <a href="#disconnectall" name="disconnectall" class="pilcrow">&#182;</a>
+    disconnectAll
+  </h3>
+</div>
+
+
+<p>Disconnects all slots connected to the signal.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="nx">disconnectAll</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">;)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">disconnect</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">listener</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">scope</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="dispatch">
+  <h3>
+    <a href="#dispatch" name="dispatch" class="pilcrow">&#182;</a>
+    dispatch
+  </h3>
+</div>
+
+
+<p>Dispatches an event into the signal flow.</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
         <span class="nx">dispatch</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
             <span class="kd">var</span> <span class="nx">valueObject</span><span class="p">;</span>
             <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_valueClasses</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -455,22 +614,11 @@ else</p>
             <span class="kd">var</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">listenerBoxes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
             <span class="kd">var</span> <span class="nx">listenerBox</span><span class="p">;</span>
 
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
-</div>
-<p>var scope;</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
             <span class="k">this</span><span class="p">.</span><span class="nx">listenersNeedCloning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
             <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">listenerBox</span> <span class="o">=</span> <span class="nx">listenerBoxes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
                 <span class="k">if</span> <span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">once</span><span class="p">)</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">listenerBox</span><span class="p">.</span><span class="nx">scope</span><span class="p">);</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">disconnect</span><span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">listener</span><span class="p">,</span> <span class="nx">listenerBox</span><span class="p">.</span><span class="nx">scope</span><span class="p">);</span>
 
                 <span class="nx">listenerBox</span><span class="p">.</span><span class="nx">listener</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">listenerBox</span><span class="p">.</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
             <span class="p">}</span>
@@ -538,7 +686,7 @@ else</p>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-     <span class="kd">function</span> <span class="nx">DisplayList</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">DisplayList</span><span class="p">()</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
 
@@ -594,29 +742,18 @@ It is designed as a replacement for Mutation Events defined in the DOM3 Events s
             <span class="nx">attributes</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
             <span class="nx">childList</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
             <span class="nx">characterData</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nx">subtree</span><span class="o">:</span><span class="kc">true</span>
+            <span class="nx">subtree</span><span class="o">:</span> <span class="kc">true</span>
         <span class="p">});</span>
     <span class="p">}</span>
 
     <span class="nx">DisplayList</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
         <span class="nx">handleMutations</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">mutations</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">mutations</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">mutation</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">mutations</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">mutation</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">result</span><span class="p">.</span><span class="nx">addedNodes</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">mutation</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">));</span>
                 <span class="nx">result</span><span class="p">.</span><span class="nx">removedNodes</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">mutation</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">));</span>
                 <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
             <span class="p">},</span> <span class="p">{</span><span class="nx">addedNodes</span><span class="o">:</span> <span class="p">[],</span> <span class="nx">removedNodes</span><span class="o">:</span> <span class="p">[]});</span>
 
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
-</div>
-
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
             <span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">addedNodes</span><span class="p">);</span>
             <span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">removedNodes</span><span class="p">);</span>
         <span class="p">}</span>
@@ -1430,9 +1567,8 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
         <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Signal</span><span class="p">();</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">definitions</span> <span class="o">=</span> <span class="nx">_definition</span> <span class="o">||</span> <span class="p">[];</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DisplayList</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesAdded</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesRemoved</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-
+        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onAdded</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesAdded</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">displayList</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_handleNodesRemoved</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ScriptLoader</span><span class="p">();</span>
     <span class="p">}</span>
 
@@ -1444,25 +1580,19 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
             <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getMediators</span><span class="p">([</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">]);</span>
         <span class="p">},</span>
         <span class="nx">getMediators</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">promises</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">target</span>
                 <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_reduceNodes</span><span class="p">,</span> <span class="p">[])</span>
-                <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_findMediators</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="p">[])</span>
-                <span class="p">.</span><span class="nx">value</span><span class="p">();</span>
-
-            <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">promises</span><span class="p">);</span>
+                <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_findMediators</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="p">[]));</span>
         <span class="p">},</span>
         <span class="nx">_findMediators</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">node</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-
-            <span class="kd">var</span> <span class="nx">mediators</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">definitions</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">definitions</span>
                 <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">{</span>
                     <span class="k">return</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">mediator</span> <span class="o">==</span> <span class="nx">def</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
                 <span class="p">})</span>
                 <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">{</span>
-
                     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">loader</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">def</span><span class="p">.</span><span class="nx">mediator</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_initMediator</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">node</span><span class="p">));</span>
-                <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)).</span><span class="nx">value</span><span class="p">();</span>
+                <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)));</span>
 
-            <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">mediators</span><span class="p">);</span>
         <span class="p">},</span>
         <span class="nx">_initMediator</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">Mediator</span><span class="p">)</span> <span class="p">{</span>
             <span class="kd">var</span> <span class="nx">mediatorId</span> <span class="o">=</span> <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">nextUid</span><span class="p">();</span>
@@ -1482,10 +1612,9 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
             <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
         <span class="p">},</span>
         <span class="nx">_handleNodesRemoved</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">nodes</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_reduceNodes</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_destroyMediator</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
 
-            <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">nodes</span><span class="p">)</span>
-                <span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_reduceNodes</span><span class="p">,</span> <span class="p">[])</span>
-                <span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_destroyMediator</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
         <span class="p">},</span>
         <span class="nx">_reduceNodes</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">node</span> <span class="o">||</span> <span class="o">!</span><span class="nx">node</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">)</span><span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
@@ -1499,7 +1628,6 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
             <span class="k">if</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">mediator</span><span class="p">.</span><span class="nx">destroy</span> <span class="o">&amp;&amp;</span> <span class="nx">mediator</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
                 <span class="nx">mediator</span><span class="p">.</span><span class="nx">postDestroy</span> <span class="o">&amp;&amp;</span> <span class="nx">mediator</span><span class="p">.</span><span class="nx">postDestroy</span><span class="p">();</span>
-
                 <span class="k">this</span><span class="p">.</span><span class="nx">onRemoved</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">mediator</span><span class="p">);</span>
                 <span class="nx">mediator</span><span class="p">.</span><span class="nx">element</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">mediator</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
                 <span class="nx">RoboJS</span><span class="p">.</span><span class="nx">MEDIATORS_CACHE</span><span class="p">[</span><span class="nx">mediatorId</span><span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
@@ -1517,7 +1645,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
+  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary">
@@ -1549,7 +1677,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
+  <a class="pilcrow" href="#section-34" id="section-34">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary">
@@ -1560,6 +1688,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
     <li>EventDispatcher</li>
     <li>EventMap</li>
     <li>EventMapConfig</li>
+    <li>Signal</li>
 </ul>
   </div>
 </div>
@@ -1581,7 +1710,7 @@ You should clean up any handlers that were added directly (<code>eventMap</code>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
+  <a class="pilcrow" href="#section-35" id="section-35">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary"><p><strong>RoboJS.net</strong> package contains</p>
